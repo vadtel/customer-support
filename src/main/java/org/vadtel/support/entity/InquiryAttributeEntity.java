@@ -9,7 +9,8 @@ import javax.persistence.*;
 @Entity
 @Data
 @ToString
-@Table(name = "attribute_of_inquiry")
+@Table(name = "attribute_of_inquiry",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"name", "fk_inquiry"}))
 public class InquiryAttributeEntity {
 
     @Id

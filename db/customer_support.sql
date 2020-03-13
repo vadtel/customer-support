@@ -29,6 +29,7 @@ CREATE TABLE `attribute_of_inquiry` (
   `name` VARCHAR(20) NOT NULL,
   `value` VARCHAR(20) NOT NULL, 
   `fk_inquiry` INTEGER DEFAULT NULL,
+  CONSTRAINT UQ_name_value UNIQUE(`name`, `fk_inquiry`),
   
   CONSTRAINT `fk_inquiry_to_attribute_of_inquiry` FOREIGN KEY(`fk_inquiry`) REFERENCES `inquiry` (`id`)
   ON DELETE CASCADE
@@ -55,9 +56,9 @@ INSERT INTO `topic` (`name`) VALUES
 
 
 INSERT INTO `inquiry` (`description`,`create_date`,`customer_name`, `fk_topic`) VALUES
-('My phone have no connection', '2020-02-27 09:10:00', 'Sherlock Holmes', 1);
+('My phone have no connection', '2020-02-27 09:10:00', 'Holmes', 1);
 INSERT INTO `inquiry` (`description`,`create_date`,`customer_name`, `fk_topic`) VALUES
-('Roaming not working', '2020-03-12 09:10:00', 'Doctor Watson', 6);
+('Roaming not working', '2020-03-12 09:10:00', 'Holmes', 6);
 INSERT INTO `inquiry` (`description`,`create_date`,`customer_name`, `fk_topic`) VALUES
 ('I want to know my puk code for my sim', '2020-03-01 12:12:00', 'Andrey', 5);
 INSERT INTO `inquiry` (`description`,`create_date`,`customer_name`, `fk_topic`) VALUES
