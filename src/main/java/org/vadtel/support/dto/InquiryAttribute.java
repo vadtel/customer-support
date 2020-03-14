@@ -1,7 +1,7 @@
 package org.vadtel.support.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -9,6 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class InquiryAttribute {
+    @EqualsAndHashCode.Exclude
     private Long id;
 
     private String name;

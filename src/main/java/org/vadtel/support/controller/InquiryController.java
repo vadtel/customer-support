@@ -51,5 +51,24 @@ public class InquiryController {
         return response;
     }
 
+    @PutMapping("/customers/{customerName}/inquiries/{inquiryId}")
+    public ResponseEntity<Inquiry> undateInquiry(@RequestBody Inquiry inquiry,
+                                                 @PathVariable("customerName") String customerName,
+                                                 @PathVariable("inquiryId") Long inquiryId) {
+        Inquiry updatedInquiry = inquiryService.getAndUpdateInquiryByCustomerNameAndInquiryId(inquiry, customerName, inquiryId);
+
+        ResponseEntity<Inquiry> response = new ResponseEntity<>(updatedInquiry, HttpStatus.OK);
+        return response;
+    }
+
+    @DeleteMapping("customers/{customerName}/inquiries/{inquiryId}")
+    public ResponseEntity<Void> deleteInquiryByCustomerNameAndInquiryId(@PathVariable("customerName") String customerName,
+                                                                     @PathVariable("inquiryId") Long inquiryId) {
+        inquiryService.deleteInquiryByCustomerNameAndInquiryId(customerName, inquiryId);
+        ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.OK);
+
+        return response;
+    }
+
 
 }

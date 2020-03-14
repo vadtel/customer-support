@@ -11,4 +11,5 @@ import java.util.List;
 public interface InquiryRepository extends JpaRepository<InquiryEntity, Long> {
     List<InquiryEntity> findAllByCustomerName(String customerName);
     InquiryEntity findByCustomerNameAndId(String customerName, Long id);
+    void deleteByCustomerNameAndId(String customerName, Long id);
 }

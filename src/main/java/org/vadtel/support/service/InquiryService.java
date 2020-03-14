@@ -13,7 +13,9 @@ public interface InquiryService {
     Inquiry createInquiry(Inquiry inquiry);
 
 
-    void getAndUpdateInquiryByCustomerNameAndInquiryId(String customerName,
-                                                          Long inquiryId,
-                                                          Inquiry inquiry);
+    void deleteInquiryByCustomerNameAndInquiryId(String customerName, Long inquiryId);
+
+    Inquiry getAndUpdateInquiryByCustomerNameAndInquiryId(Inquiry sourceInquiry,
+                                                          String customerName,
+                                                          Long inquiryId);
 }
