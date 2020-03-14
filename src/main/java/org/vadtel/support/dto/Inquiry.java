@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -26,5 +27,5 @@ public class Inquiry {
 
     private String customerName;
 
-    private Map<String, String> attributeEntityList;
+    private List<InquiryAttribute> attributeEntityList;
 }

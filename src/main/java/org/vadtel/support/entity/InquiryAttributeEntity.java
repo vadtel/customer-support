@@ -25,7 +25,7 @@ public class InquiryAttributeEntity {
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_inquiry")
     private InquiryEntity inquiryEntity;
 

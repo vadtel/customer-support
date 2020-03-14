@@ -24,7 +24,7 @@ public class InquiryController {
 
     @GetMapping("customers/{customerName}/inquiries")
     public ResponseEntity<List<Inquiry>> getAllInquiriesByCustomerName(
-                                                                @PathVariable("customerName") String customerName) {
+            @PathVariable("customerName") String customerName) {
         List<Inquiry> inquiries = inquiryService.getAllInquiriesByCustomerName(customerName);
         ResponseEntity<List<Inquiry>> response = new ResponseEntity<>(inquiries, HttpStatus.OK);
 
@@ -32,9 +32,8 @@ public class InquiryController {
     }
 
     @GetMapping("customers/{customerName}/inquiries/{inquiryId}")
-    public ResponseEntity<Inquiry> getInquiryByCustomerNameAndInquiryId(
-                                                                @PathVariable("customerName") String customerName,
-                                                                @PathVariable("inquiryId") Long inquiryId){
+    public ResponseEntity<Inquiry> getInquiryByCustomerNameAndInquiryId(@PathVariable("customerName") String customerName,
+                                                                        @PathVariable("inquiryId") Long inquiryId) {
         Inquiry inquiry = inquiryService.getInquiryByCustomerNameAndInquiryId(customerName, inquiryId);
         ResponseEntity<Inquiry> response = new ResponseEntity<>(inquiry, HttpStatus.OK);
 
@@ -42,13 +41,15 @@ public class InquiryController {
     }
 
     @PostMapping("/customers/{customerName}/inquiries")
-    public ResponseEntity<Inquiry> createInquiry(@RequestBody Inquiry inquiry, @PathVariable("customerName") String customerName){
+    public ResponseEntity<Inquiry> createInquiry(@RequestBody Inquiry inquiry,
+                                                 @PathVariable("customerName") String customerName) {
         inquiry.setCreateDate(new Date());
         inquiry.setCustomerName(customerName);
         Inquiry createdInquiry = inquiryService.createInquiry(inquiry);
 
         ResponseEntity<Inquiry> response = new ResponseEntity<>(createdInquiry, HttpStatus.OK);
         return response;
-
     }
+
+
 }
