@@ -1,4 +1,4 @@
-package org.vadtel.support.dto.mapper;
+package org.vadtel.support.service.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

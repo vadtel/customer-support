@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vadtel.support.dao.repository.TopicRepository;
 import org.vadtel.support.dto.Topic;
-import org.vadtel.support.dto.mapper.TopicMapper;
 import org.vadtel.support.entity.TopicEntity;
 import org.vadtel.support.service.TopicService;
+import org.vadtel.support.service.mapper.TopicMapper;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -30,5 +30,13 @@ public class TopicServiceImpl implements TopicService {
         List<Topic> topics = topicMapper.toDtos(topicEntity);
 
         return topics;
+    }
+
+    @Override
+    public TopicEntity findByNameOrCreate(String name) {
+        TopicEntity topicEntity = topicRepository.findByName(name)
+                .orElseGet(() -> topicRepository.save(new TopicEntity(name)));
+
+        return topicEntity;
     }
 }
