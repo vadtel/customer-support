@@ -41,11 +41,10 @@ public class RepositoryConfiguration {
 
 
     @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
+    public JpaVendorAdapter jpaVendorAdapter(@Value("${jdbc.databasePlatform}") String databasePlatform) {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-        adapter.setDatabasePlatform("MYSQL");
         adapter.setShowSql(true);
-        adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
+        adapter.setDatabasePlatform(databasePlatform);
 
         return adapter;
     }

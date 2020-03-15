@@ -1,5 +1,6 @@
 package org.vadtel.support.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vadtel.support.dao.repository.TopicRepository;
@@ -13,16 +14,11 @@ import java.util.List;
 
 @Transactional
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TopicServiceImpl implements TopicService {
 
     private final TopicRepository topicRepository;
     private final TopicMapper topicMapper;
-
-    @Autowired
-    public TopicServiceImpl(TopicRepository topicRepository, TopicMapper topicMapper) {
-        this.topicRepository = topicRepository;
-        this.topicMapper = topicMapper;
-    }
 
     @Override
     public List<Topic> getAllTopics() {

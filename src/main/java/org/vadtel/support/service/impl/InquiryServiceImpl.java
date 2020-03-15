@@ -1,5 +1,6 @@
 package org.vadtel.support.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vadtel.support.dao.repository.InquiryRepository;
@@ -21,23 +22,13 @@ import java.util.stream.Collectors;
 
 @Transactional
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class InquiryServiceImpl implements InquiryService {
 
     private final InquiryRepository inquiryRepository;
     private final InquiryMapper inquiryMapper;
     private final InquiryAttributeMapper inquiryAttributeMapper;
     private final TopicService topicService;
-
-
-    @Autowired
-    public InquiryServiceImpl(InquiryRepository inquiryRepository,
-                              InquiryMapper inquiryMapper,
-                              InquiryAttributeMapper inquiryAttributeMapper, TopicService topicService) {
-        this.inquiryRepository = inquiryRepository;
-        this.inquiryMapper = inquiryMapper;
-        this.inquiryAttributeMapper = inquiryAttributeMapper;
-        this.topicService = topicService;
-    }
 
     @Override
     public List<Inquiry> getAllInquiriesByCustomerName(String customerName) {
