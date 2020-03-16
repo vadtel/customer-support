@@ -43,7 +43,7 @@ public class RepositoryConfiguration {
     @Bean
     public JpaVendorAdapter jpaVendorAdapter(@Value("${jdbc.databasePlatform}") String databasePlatform) {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-        adapter.setShowSql(true);
+        adapter.setShowSql(false);
         adapter.setDatabasePlatform(databasePlatform);
 
         return adapter;
@@ -72,7 +72,7 @@ public class RepositoryConfiguration {
     private Properties additionalJpaProperties() {
         Properties properties = new Properties();
 
-        properties.setProperty("hibernate.format_sql", "false");
+        properties.setProperty("hibernate.format_sql", "true");
 
         return properties;
     }
