@@ -16,8 +16,10 @@ import org.vadtel.support.service.mapper.InquiryMapper;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -49,7 +51,8 @@ public class InquiryServiceImpl implements InquiryService {
         TopicEntity topicEntity = topicService.findByNameOrCreate(inquiry.getTopicName());
         InquiryEntity inquiryEntity = inquiryMapper.toEntity(inquiry);
         inquiryEntity.setTopicEntity(topicEntity);
-        inquiryEntity.getAttributeEntityList().forEach(x -> x.setInquiryEntity(inquiryEntity));
+        Optional.ofNullable(inquiryEntity.getAttributeEntityList())
+                .ifPresent(l -> l.forEach(x -> x.setInquiryEntity(inquiryEntity)));
 
         InquiryEntity save = inquiryRepository.save(inquiryEntity);
         Inquiry saveEntity = inquiryMapper.toDto(save);
@@ -58,7 +61,7 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     @Override
-    public void deleteInquiryByCustomerNameAndInquiryId(String customerName, Long inquiryId){
+    public void deleteInquiryByCustomerNameAndInquiryId(String customerName, Long inquiryId) {
         inquiryRepository.deleteByCustomerNameAndId(customerName, inquiryId);
     }
 
@@ -85,23 +88,25 @@ public class InquiryServiceImpl implements InquiryService {
         target.setDescription(source.getDescription());
         List<InquiryAttribute> sourceAttributes = source.getAttributeEntityList();
         List<InquiryAttributeEntity> targetAttributes = target.getAttributeEntityList();
+        List<InquiryAttribute> attributes = new ArrayList<>();
 
-        targetAttributes.forEach(tar -> sourceAttributes
-                .forEach(sor -> {
-                    if (tar.getName().equals(sor.getName())) {
-                        tar.setValue(sor.getValue());
-                    }
-                }));
+        if (targetAttributes != null && sourceAttributes != null) {
+            targetAttributes.forEach(tar -> sourceAttributes
+                    .forEach(sor -> {
+                        if (tar.getName().equals(sor.getName())) {
+                            tar.setValue(sor.getValue());
+                        }
+                    }));
 
-        List<InquiryAttribute> attributes = sourceAttributes
-                .stream()
-                .filter(sour -> targetAttributes
-                        .stream()
-                        .noneMatch(tar -> tar.getName().equals(sour.getName())))
-                .collect(Collectors.toList());
-
+            attributes = sourceAttributes
+                    .stream()
+                    .filter(sour -> targetAttributes
+                            .stream()
+                            .noneMatch(tar -> tar.getName().equals(sour.getName())))
+                    .collect(Collectors.toList());
+        }
 
         targetAttributes.addAll(inquiryAttributeMapper.toEntities(attributes));
-        targetAttributes.forEach(x->x.setInquiryEntity(target));
+        targetAttributes.forEach(x -> x.setInquiryEntity(target));
     }
 }

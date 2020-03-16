@@ -16,4 +16,9 @@ public class InquiryAttribute {
 
     private String value;
 
+    public InquiryAttribute(Long id, String name, String value) {
+        this.id = id;
+        this.name = name;
+        this.value = value;
+    }
 }

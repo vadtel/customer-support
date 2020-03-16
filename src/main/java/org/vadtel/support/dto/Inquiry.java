@@ -8,7 +8,6 @@ import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +21,7 @@ public class Inquiry {
 
     private String description;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh-mm-ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createDate;
 
     private String customerName;

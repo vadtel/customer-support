@@ -2,16 +2,12 @@ package org.vadtel.support.dao.repository;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.vadtel.support.config.ApplicationContextConfig;
-import org.vadtel.support.dao.config.RepositoryConfiguration;
 import org.vadtel.support.entity.InquiryEntity;
 
 import javax.transaction.Transactional;
@@ -23,8 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @Rollback
 @ContextConfiguration(
-        classes = {ApplicationContextConfig.class},
-        loader = AnnotationConfigWebContextLoader.class)
+        classes = {ApplicationContextConfig.class})
 @WebAppConfiguration
 class InquiryRepositoryTest {
     public static final String NAME = "Holmes";

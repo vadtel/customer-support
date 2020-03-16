@@ -4,6 +4,7 @@ package org.vadtel.support.dao.repository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -28,8 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @Rollback
 @ContextConfiguration(
-        classes = {ApplicationContextConfig.class},
-        loader = AnnotationConfigWebContextLoader.class)
+        classes = {ApplicationContextConfig.class})
 @WebAppConfiguration
 public class TopicRepositoryTest {
 
