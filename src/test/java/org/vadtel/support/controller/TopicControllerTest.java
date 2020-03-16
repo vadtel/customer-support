@@ -41,7 +41,7 @@ class TopicControllerTest {
     }
 
     @Test
-    public void givenWac_whenServletContext_thenItProvidesGreetController() {
+    public void givenWac_whenServletContext_thenItProvidesTopicController() {
         ServletContext servletContext = wac.getServletContext();
 
         assertNotNull(servletContext);

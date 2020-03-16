@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.vadtel.support.dao.repository.TopicRepository;
 import org.vadtel.support.dto.Topic;
 import org.vadtel.support.entity.TopicEntity;
+import org.vadtel.support.exception.DaoException;
 import org.vadtel.support.service.TopicService;
 import org.vadtel.support.service.mapper.TopicMapper;
 
@@ -22,7 +23,12 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<Topic> getAllTopics() {
-        List<TopicEntity> topicEntity = topicRepository.findAll();
+        List<TopicEntity> topicEntity = null;
+        try {
+            topicEntity = topicRepository.findAll();
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
         List<Topic> topics = topicMapper.toDtos(topicEntity);
 
         return topics;
@@ -30,8 +36,13 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public TopicEntity findByNameOrCreate(String name) {
-        TopicEntity topicEntity = topicRepository.findByName(name)
-                .orElseGet(() -> topicRepository.save(new TopicEntity(name)));
+        TopicEntity topicEntity = null;
+        try {
+            topicEntity = topicRepository.findByName(name)
+                    .orElseGet(() -> topicRepository.save(new TopicEntity(name)));
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
 
         return topicEntity;
     }

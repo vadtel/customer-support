@@ -72,7 +72,7 @@ public class RepositoryConfiguration {
     private Properties additionalJpaProperties() {
         Properties properties = new Properties();
 
-        properties.setProperty("hibernate.format_sql", "true");
+        properties.setProperty("hibernate.format_sql", "false");
 
         return properties;
     }

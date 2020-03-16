@@ -9,6 +9,7 @@ import org.vadtel.support.dto.InquiryAttribute;
 import org.vadtel.support.entity.InquiryAttributeEntity;
 import org.vadtel.support.entity.InquiryEntity;
 import org.vadtel.support.entity.TopicEntity;
+import org.vadtel.support.exception.DaoException;
 import org.vadtel.support.service.InquiryService;
 import org.vadtel.support.service.TopicService;
 import org.vadtel.support.service.mapper.InquiryAttributeMapper;
@@ -34,14 +35,24 @@ public class InquiryServiceImpl implements InquiryService {
 
     @Override
     public List<Inquiry> getAllInquiriesByCustomerName(String customerName) {
-        List<InquiryEntity> inquiryEntities = inquiryRepository.findAllByCustomerName(customerName);
+        List<InquiryEntity> inquiryEntities = null;
+        try {
+            inquiryEntities = inquiryRepository.findAllByCustomerName(customerName);
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
         List<Inquiry> inquiries = inquiryMapper.toDtos(inquiryEntities);
         return inquiries;
     }
 
     @Override
     public Inquiry getInquiryByCustomerNameAndInquiryId(String customerName, Long inquiryId) {
-        InquiryEntity inquiryEntity = inquiryRepository.findByCustomerNameAndId(customerName, inquiryId);
+        InquiryEntity inquiryEntity = null;
+        try {
+            inquiryEntity = inquiryRepository.findByCustomerNameAndId(customerName, inquiryId);
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
         Inquiry inquiry = inquiryMapper.toDto(inquiryEntity);
         return inquiry;
     }
@@ -49,36 +60,54 @@ public class InquiryServiceImpl implements InquiryService {
     @Override
     public Inquiry createInquiry(Inquiry inquiry) {
         TopicEntity topicEntity = topicService.findByNameOrCreate(inquiry.getTopicName());
-        InquiryEntity inquiryEntity = inquiryMapper.toEntity(inquiry);
-        inquiryEntity.setTopicEntity(topicEntity);
-        Optional.ofNullable(inquiryEntity.getAttributeEntityList())
-                .ifPresent(l -> l.forEach(x -> x.setInquiryEntity(inquiryEntity)));
+        InquiryEntity save = null;
+        try {
+            InquiryEntity inquiryEntity = inquiryMapper.toEntity(inquiry);
+            inquiryEntity.setTopicEntity(topicEntity);
 
-        InquiryEntity save = inquiryRepository.save(inquiryEntity);
+            Optional.ofNullable(inquiryEntity.getAttributeEntityList())
+                    .ifPresent(l -> l.forEach(x -> x.setInquiryEntity(inquiryEntity)));
+
+            save = inquiryRepository.save(inquiryEntity);
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+
         Inquiry saveEntity = inquiryMapper.toDto(save);
-
         return saveEntity;
     }
 
     @Override
     public void deleteInquiryByCustomerNameAndInquiryId(String customerName, Long inquiryId) {
-        inquiryRepository.deleteByCustomerNameAndId(customerName, inquiryId);
+        try {
+            inquiryRepository.deleteByCustomerNameAndId(customerName, inquiryId);
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
     }
 
     @Override
     public Inquiry getAndUpdateInquiryByCustomerNameAndInquiryId(Inquiry sourceInquiry,
                                                                  String customerName,
                                                                  Long inquiryId) {
-        InquiryEntity targetInquiryEntity = inquiryRepository.findByCustomerNameAndId(customerName, inquiryId);
-
-
+        InquiryEntity targetInquiryEntity = null;
+        try {
+            targetInquiryEntity = inquiryRepository.findByCustomerNameAndId(customerName, inquiryId);
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
         updateInquiryEntity(sourceInquiry, targetInquiryEntity);
 
         targetInquiryEntity.getAttributeEntityList().add(
                 new InquiryAttributeEntity("Update inquiry",
                         new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
                         targetInquiryEntity));
-        InquiryEntity save = inquiryRepository.save(targetInquiryEntity);
+        InquiryEntity save = null;
+        try {
+            save = inquiryRepository.save(targetInquiryEntity);
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
 
         Inquiry inquiry = inquiryMapper.toDto(save);
         return inquiry;

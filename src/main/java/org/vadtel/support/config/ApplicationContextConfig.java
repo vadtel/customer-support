@@ -12,5 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan("org.vadtel.support.service.mapper")
 @ComponentScan("org.vadtel.support.service.impl")
 @ComponentScan("org.vadtel.support.controller")
+@ComponentScan("org.vadtel.support.service.advice")
 public class ApplicationContextConfig implements WebMvcConfigurer {
+
 }

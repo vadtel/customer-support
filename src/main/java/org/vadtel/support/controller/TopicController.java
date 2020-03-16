@@ -1,5 +1,7 @@
 package org.vadtel.support.controller;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,25 +18,29 @@ import java.util.List;
 @RequestMapping(value = "topics",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class TopicController {
+    //TODO add log
+    //TODO add custom api exception
+    //TODO add validation
 
     private final TopicService topicService;
 
-    @Autowired
-    public TopicController(TopicService topicService) {
-        this.topicService = topicService;
-    }
-
-
     @GetMapping(value = "/")
-    public ResponseEntity<List<Topic>> getAllTopics(){
+    public ResponseEntity<List<Topic>> getAllTopics() {
+        log.debug("getAllTopics() is executed");
+
         List<Topic> topics = topicService.getAllTopics();
-        ResponseEntity<List<Topic>> response = new ResponseEntity<>(topics, HttpStatus.OK);
+        ResponseEntity<List<Topic>> response;
+        if (topics == null || topics.isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            response = new ResponseEntity<>(topics, HttpStatus.OK);
+        }
 
         return response;
     }
-
-
 
 
 }
